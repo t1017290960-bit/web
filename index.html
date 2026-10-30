@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<script src="https://cdn.tailwindcss.com"></script>
+<title>紙飛機飛行海報</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:system-ui,sans-serif}
+.scene{position:fixed;inset:0;background:url('https://inskvcdsblyukxuqeqoz.supabase.co/storage/v1/object/sign/interactive-tools-bucket/user_3JToioDfZjv8bhcMCl8vBy2mapl/984188f1-411f-40dc-a9ec-305e1974dbaa.png?token=eyJraWQiOiI4MTYwZjkwMC1kYTUyLTQ5ZjEtYmYwOC04Y2JkMTgwNjcwMDUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbnRlcmFjdGl2ZS10b29scy1idWNrZXQvdXNlcl8zSlRvaW9EZlpqdjhiaGNNQ2w4dkJ5Mm1hcGwvOTg0MTg4ZjEtNDExZi00MGRjLWE5ZWMtMzA1ZTE5NzRkYmFhLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3OTMzMjUyODUsImV4cCI6MTc5MzMyNTU4NX0.VQ23TeM9aQoQ4hvOJTnR5vZOhM3m1mt8N1KaDByny7s') center center/cover no-repeat}
+.plane{position:fixed;left:0;top:0;width:clamp(64px,9vw,112px);filter:drop-shadow(0 4px 5px #17395766);pointer-events:none;will-change:transform;transform-origin:center}
+
+@media(max-width:600px){.scene{background-position:center center}}
+</style>
+</head>
+<body>
+<main class="scene" id="scene" aria-label="海報背景">
+<svg class="plane" viewBox="0 0 100 72" role="img" aria-label="飛行中的紙飛機" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 32 96 5 67 66 48 44 4 32Z" fill="#fffdf5" stroke="#506b7b" stroke-width="2.4" stroke-linejoin="round"/>
+<path d="m4 32 44 12 48-39M48 44l19 22-2-31" fill="none" stroke="#8a9ba1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<div class="date-cover" aria-hidden="true"></div>
+</main>
+<script>
+const firstPlane=document.querySelector('.plane'), scene=document.getElementById('scene');
+const planes=[firstPlane];
+for(let i=1;i<5;i++){const p=firstPlane.cloneNode(true);p.setAttribute('aria-hidden','true');p.removeAttribute('role');p.style.width=`clamp(${55+i*4}px,${7+i*.55}vw,${82+i*9}px)`;p.style.opacity=String(.62+i*.075);scene.appendChild(p);planes.push(p)}
+function animatePlane(plane,index){
+ let point={x:Math.random()*Math.max(1,innerWidth-90),y:Math.random()*Math.max(1,innerHeight-70)},angle=Math.random()*360,scale=.72+Math.random()*.35;
+ plane.style.transform=`translate3d(${point.x}px,${point.y}px,0) rotate(${angle}deg) scale(${scale})`;
+ function flyLeg(){
+  const r=plane.getBoundingClientRect(),end={x:Math.random()*Math.max(1,innerWidth-r.width),y:Math.random()*Math.max(1,innerHeight-r.height)};
+  const dx=end.x-point.x,dy=end.y-point.y,len=Math.hypot(dx,dy)||1,px=-dy/len,py=dx/len,bend=(Math.random()-.5)*Math.min(300,Math.max(90,len*.7));
+  const c1={x:point.x+dx*.3+px*bend,y:point.y+dy*.3+py*bend},c2={x:point.x+dx*.72+px*bend*.65,y:point.y+dy*.72+py*bend*.65};
+  const from={...point},fromAngle=angle,fromScale=scale,toScale=.72+Math.random()*.38,duration=2600+Math.random()*5200+index*180;let start;
+  function step(now){
+   if(!start)start=now;const t=Math.min(1,(now-start)/duration),u=1-t;
+   const x=u*u*u*from.x+3*u*u*t*c1.x+3*u*t*t*c2.x+t*t*t*end.x,y=u*u*u*from.y+3*u*u*t*c1.y+3*u*t*t*c2.y+t*t*t*end.y;
+   const vx=3*u*u*(c1.x-from.x)+6*u*t*(c2.x-c1.x)+3*t*t*(end.x-c2.x),vy=3*u*u*(c1.y-from.y)+6*u*t*(c2.y-c1.y)+3*t*t*(end.y-c2.y);
+   let a=Math.atan2(vy,vx)*180/Math.PI;a+=360*Math.round((fromAngle-a)/360);angle=a;scale=fromScale+(toScale-fromScale)*t;
+   plane.style.transform=`translate3d(${x}px,${y}px,0) rotate(${angle}deg) scale(${scale})`;
+   if(t<1)requestAnimationFrame(step);else{point=end;flyLeg()}
+  }
+  requestAnimationFrame(step)
+ }
+ setTimeout(flyLeg,index*650)
+}
+planes.forEach(animatePlane);
+</script>
+</body>
+</html>
