@@ -25,14 +25,18 @@
 <script>
 const firstPlane=document.querySelector('.plane'), scene=document.getElementById('scene');
 const planes=[firstPlane];
-for(let i=1;i<5;i++){const p=firstPlane.cloneNode(true);p.setAttribute('aria-hidden','true');p.removeAttribute('role');p.style.width=`clamp(${165+i*12}px,${21+i*1.2}vw,${240+i*21}px)`;p.style.opacity=String(.62+i*.075);scene.appendChild(p);planes.push(p)}
+for(let i=1;i<2;i++){const p=firstPlane.cloneNode(true);p.setAttribute('aria-hidden','true');p.removeAttribute('role');p.style.width=`clamp(${165+i*12}px,${21+i*1.2}vw,${240+i*21}px)`;p.style.opacity=String(.62+i*.075);scene.appendChild(p);planes.push(p)}
 function animatePlane(plane,index){
- let point={x:Math.random()*Math.max(1,innerWidth-90),y:Math.random()*Math.max(1,innerHeight-70)},angle=Math.random()*360,scale=.72+Math.random()*.35;
+ const w=parseFloat(getComputedStyle(plane).width),h=w*.72,radius=Math.hypot(w,h)/2;
+ const minX=Math.min(Math.max(0,innerWidth*.82-w),innerWidth*.18),maxX=Math.max(minX,innerWidth*.82-w);
+ const minY=Math.max(innerHeight*.37,innerHeight*.27+radius-h/2),maxY=Math.max(minY,innerHeight*.72-h);
+ const pick=(min,max)=>min+Math.random()*(max-min),clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
+ let point={x:pick(minX,maxX),y:pick(minY,maxY)},angle=Math.random()*360,scale=.72+Math.random()*.35;
  plane.style.transform=`translate3d(${point.x}px,${point.y}px,0) rotate(${angle}deg) scale(${scale})`;
  function flyLeg(){
-  const r=plane.getBoundingClientRect(),end={x:Math.random()*Math.max(1,innerWidth-r.width),y:Math.random()*Math.max(1,innerHeight-r.height)};
+  const end={x:pick(minX,maxX),y:pick(minY,maxY)};
   const dx=end.x-point.x,dy=end.y-point.y,len=Math.hypot(dx,dy)||1,px=-dy/len,py=dx/len,bend=(Math.random()-.5)*Math.min(300,Math.max(90,len*.7));
-  const c1={x:point.x+dx*.3+px*bend,y:point.y+dy*.3+py*bend},c2={x:point.x+dx*.72+px*bend*.65,y:point.y+dy*.72+py*bend*.65};
+  const c1={x:clamp(point.x+dx*.3+px*bend,minX,maxX),y:clamp(point.y+dy*.3+py*bend,minY,maxY)},c2={x:clamp(point.x+dx*.72+px*bend*.65,minX,maxX),y:clamp(point.y+dy*.72+py*bend*.65,minY,maxY)};
   const from={...point},fromAngle=angle,fromScale=scale,toScale=.72+Math.random()*.38,duration=2600+Math.random()*5200+index*180;let start;
   function step(now){
    if(!start)start=now;const t=Math.min(1,(now-start)/duration),u=1-t;
