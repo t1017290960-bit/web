@@ -8,7 +8,7 @@
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:system-ui,sans-serif}
 .scene{position:fixed;inset:0;overflow:hidden;background:#8ec9e8}
 .poster-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0}
-.plane{position:fixed;left:0;top:0;z-index:1;width:clamp(64px,9vw,112px);filter:drop-shadow(0 4px 5px #17395766);pointer-events:none;will-change:transform;transform-origin:center}
+.plane{position:fixed;left:0;top:0;z-index:1;width:clamp(195px,27vw,330px);filter:drop-shadow(0 4px 5px #17395766);pointer-events:none;will-change:transform;transform-origin:center}
 
 @media(max-width:600px){.scene{background-position:center center}}
 </style>
@@ -25,7 +25,7 @@
 <script>
 const firstPlane=document.querySelector('.plane'), scene=document.getElementById('scene');
 const planes=[firstPlane];
-for(let i=1;i<5;i++){const p=firstPlane.cloneNode(true);p.setAttribute('aria-hidden','true');p.removeAttribute('role');p.style.width=`clamp(${55+i*4}px,${7+i*.55}vw,${82+i*9}px)`;p.style.opacity=String(.62+i*.075);scene.appendChild(p);planes.push(p)}
+for(let i=1;i<5;i++){const p=firstPlane.cloneNode(true);p.setAttribute('aria-hidden','true');p.removeAttribute('role');p.style.width=`clamp(${165+i*12}px,${21+i*1.2}vw,${240+i*21}px)`;p.style.opacity=String(.62+i*.075);scene.appendChild(p);planes.push(p)}
 function animatePlane(plane,index){
  let point={x:Math.random()*Math.max(1,innerWidth-90),y:Math.random()*Math.max(1,innerHeight-70)},angle=Math.random()*360,scale=.72+Math.random()*.35;
  plane.style.transform=`translate3d(${point.x}px,${point.y}px,0) rotate(${angle}deg) scale(${scale})`;
