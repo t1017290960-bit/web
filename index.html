@@ -6,7 +6,7 @@
   <title>救世軍 直播待機畫面</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;900&family=Montserrat:wght@300;400;500&display=swap');
     
     * {
       box-sizing: border-box;
@@ -14,353 +14,193 @@
     }
 
     body {
-      font-family: 'Noto Sans TC', sans-serif;
-      background-color: #0c0204;
+      background: radial-gradient(circle at 18% 45%, #6a0d15 0%, #2f0408 35%, #18191d 65%, #111215 100%);
       overflow: hidden;
       margin: 0;
       padding: 0;
       width: 100vw;
       height: 100vh;
+      font-family: 'Montserrat', sans-serif;
     }
 
-    /* 背景柔光流動動畫 */
-    .aurora-bg {
+    /* 雙盾核心強烈暖金背光 */
+    .golden-core-glow {
       position: absolute;
-      inset: -50%;
-      background: radial-gradient(circle at 50% 50%, rgba(185, 28, 28, 0.35) 0%, rgba(120, 15, 20, 0.2) 35%, rgba(15, 3, 5, 0.95) 70%, #080102 100%);
-      filter: blur(60px);
-      animation: rotateGradient 28s ease-in-out infinite alternate;
-      z-index: 1;
+      top: 42%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 580px;
+      height: 380px;
+      background: radial-gradient(ellipse at center, rgba(255, 210, 130, 0.45) 0%, rgba(230, 100, 40, 0.28) 40%, rgba(180, 20, 20, 0.12) 65%, transparent 80%);
+      filter: blur(45px);
+      pointer-events-none;
+      animation: pulseGlow 6s ease-in-out infinite alternate;
+      z-index: 2;
     }
 
-    .aurora-blob {
+    @keyframes pulseGlow {
+      0% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.96); }
+      100% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+    }
+
+    /* 絲綢波浪畫布 */
+    #waveCanvas {
       position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.45;
-      animation: floatMotion 18s ease-in-out infinite alternate;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 3;
+      pointer-events-none;
     }
 
-    .blob-1 {
-      width: 55vw;
-      height: 55vw;
-      background: radial-gradient(circle, #e11d48, transparent 70%);
-      top: 15%;
-      left: 10%;
+    /* 雙盾懸浮微光 */
+    .shield-float {
+      filter: drop-shadow(0 0 25px rgba(255, 170, 70, 0.55)) drop-shadow(0 15px 35px rgba(0, 0, 0, 0.7));
+      animation: gentleFloat 7s ease-in-out infinite;
     }
 
-    .blob-2 {
-      width: 45vw;
-      height: 45vw;
-      background: radial-gradient(circle, #991b1b, transparent 70%);
-      bottom: 10%;
-      right: 15%;
-      animation-duration: 22s;
-      animation-delay: -5s;
-    }
-
-    @keyframes rotateGradient {
-      0% { transform: scale(1) rotate(0deg); }
-      50% { transform: scale(1.15) rotate(180deg); }
-      100% { transform: scale(1) rotate(360deg); }
-    }
-
-    @keyframes floatMotion {
-      0% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(4vw, -5vh) scale(1.1); }
-      100% { transform: translate(-3vw, 4vh) scale(0.95); }
-    }
-
-    /* 呼吸發光 Logo */
-    .logo-glow {
-      filter: drop-shadow(0 0 35px rgba(239, 68, 68, 0.45)) drop-shadow(0 0 70px rgba(185, 28, 28, 0.3));
-      animation: breathingGlow 5s ease-in-out infinite;
-    }
-
-    @keyframes breathingGlow {
-      0%, 100% {
-        filter: drop-shadow(0 0 25px rgba(220, 38, 38, 0.4)) drop-shadow(0 0 60px rgba(185, 28, 28, 0.25));
-        transform: translateY(0px) scale(1);
-      }
-      50% {
-        filter: drop-shadow(0 0 45px rgba(239, 68, 68, 0.7)) drop-shadow(0 0 90px rgba(220, 38, 38, 0.5));
-        transform: translateY(-6px) scale(1.015);
-      }
-    }
-
-    /* 點陣動畫 */
-    .dot-flashing {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .dot-flashing span {
-      width: 8px;
-      height: 8px;
-      background-color: #f87171;
-      border-radius: 50%;
-      animation: pulseDot 1.4s infinite ease-in-out both;
-    }
-
-    .dot-flashing span:nth-child(1) { animation-delay: -0.32s; }
-    .dot-flashing span:nth-child(2) { animation-delay: -0.16s; }
-    .dot-flashing span:nth-child(3) { animation-delay: 0s; }
-
-    @keyframes pulseDot {
-      0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
-      40% { opacity: 1; transform: scale(1.3); }
-    }
-
-    /* 掃光文字效果 */
-    .shimmer-text {
-      background: linear-gradient(90deg, #ffffff 0%, #fecaca 40%, #ffffff 50%, #fca5a5 60%, #ffffff 100%);
-      background-size: 200% auto;
-      color: transparent;
-      -webkit-background-clip: text;
-      background-clip: text;
-      animation: textShimmer 6s linear infinite;
-    }
-
-    @keyframes textShimmer {
-      0% { background-position: -200% 0; }
-      100% { background-position: 200% 0; }
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-7px); }
     }
   </style>
 </head>
 <body class="relative flex items-center justify-center">
 
-  <!-- 背景動態光暈層 -->
-  <div class="aurora-bg"></div>
-  <div class="aurora-blob blob-1"></div>
-  <div class="aurora-blob blob-2"></div>
+  <!-- 暖金色核心發光層 -->
+  <div class="golden-core-glow"></div>
 
-  <!-- Canvas 粒子飄動層 -->
-  <canvas id="particleCanvas" class="absolute inset-0 z-10 pointer-events-none w-full h-full"></canvas>
+  <!-- 優雅絲綢動態波浪 Canvas -->
+  <canvas id="waveCanvas"></canvas>
 
-  <!-- 內容主舞台 (16:9 容器保證視覺平衡) -->
-  <main class="relative z-20 flex flex-col items-center justify-center text-center px-6 max-w-5xl">
+  <!-- 內容舞台 (精準 1:1 還原典雅設計) -->
+  <main class="relative z-10 flex flex-col items-center justify-center text-center px-4 max-w-4xl select-none">
     
-    <!-- 救世軍雙盾 Logo -->
-    <div class="relative mb-8">
+    <!-- 救世軍雙盾 (優先讀取 GitHub 倉庫中的「雙紅盾(去底版).png」) -->
+    <div class="relative mb-6 shield-float flex items-center justify-center">
       <img 
-        src="https://inskvcdsblyukxuqeqoz.supabase.co/storage/v1/object/sign/interactive-tools-bucket/user_3JToioDfZjv8bhcMCl8vBy2mapl/5b88845c-5c83-486a-8815-77e9114022dd.png?token=eyJraWQiOiI4MTYwZjkwMC1kYTUyLTQ5ZjEtYmYwOC04Y2JkMTgwNjcwMDUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbnRlcmFjdGl2ZS10b29scy1idWNrZXQvdXNlcl8zSlRvaW9EZlpqdjhiaGNNQ2w4dkJ5Mm1hcGwvNWI4ODg0NWMtNWM4My00ODZhLTg4MTUtNzdlOTExNDAyMmRkLnBuZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3OTQ1NDc5MDksImV4cCI6MTc5NDU0ODIwOX0.ILNhUmx11LAGKyZDxFwHr7BxdjCRw8vdZS3J_kzsXno" 
-        alt="救世軍 The Salvation Army"
-        class="h-44 sm:h-52 md:h-64 object-contain logo-glow"
+        id="posterImg" 
+        src="./雙紅盾(去底版).png" 
+        alt="救世軍 The Salvation Army" 
+        class="h-44 sm:h-52 md:h-60 object-contain drop-shadow-2xl"
+        onerror="if(decodeURIComponent(this.src).includes('雙紅盾')){ this.src = './poster.png'; } else { this.style.display='none'; document.getElementById('vectorShield').style.display='block'; }"
       />
+
+      <svg id="vectorShield" style="display: none;" class="w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 drop-shadow-2xl" viewBox="0 0 520 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="shieldShadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#000" flood-opacity="0.8"/>
+          </filter>
+          <linearGradient id="shieldRed" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#eb2131"/>
+            <stop offset="60%" stop-color="#c9101f"/>
+            <stop offset="100%" stop-color="#8b0914"/>
+          </linearGradient>
+        </defs>
+
+        <!-- 右盾牌 (救世軍) -->
+        <g transform="translate(195, 115) scale(0.92)" filter="url(#shieldShadow)">
+          <path d="M150 15 C105 40 45 35 15 25 C10 80 12 170 45 235 C80 300 135 335 150 345 C165 335 220 300 255 235 C288 170 290 80 285 25 C255 35 195 40 150 15 Z" 
+                fill="url(#shieldRed)" stroke="#ffffff" stroke-width="13" stroke-linejoin="round"/>
+          <path d="M150 26 C110 47 55 43 27 35 C23 84 25 166 54 226 C85 286 136 319 150 328 C164 319 215 286 246 226 C275 166 277 84 273 35 C245 43 190 47 150 26 Z" 
+                fill="none" stroke="#ffffff" stroke-width="3.5" opacity="0.95"/>
+          <text x="150" y="118" font-family="'Noto Serif TC', serif" font-weight="900" font-size="68" fill="#ffffff" text-anchor="middle">救</text>
+          <text x="150" y="206" font-family="'Noto Serif TC', serif" font-weight="900" font-size="68" fill="#ffffff" text-anchor="middle">世</text>
+          <text x="150" y="294" font-family="'Noto Serif TC', serif" font-weight="900" font-size="68" fill="#ffffff" text-anchor="middle">軍</text>
+        </g>
+
+        <!-- 左盾牌 (THE SALVATION ARMY) -->
+        <g transform="translate(25, 25) rotate(-6 150 180)" filter="url(#shieldShadow)">
+          <path d="M150 15 C105 40 45 35 15 25 C10 80 12 170 45 235 C80 300 135 335 150 345 C165 335 220 300 255 235 C288 170 290 80 285 25 C255 35 195 40 150 15 Z" 
+                fill="url(#shieldRed)" stroke="#ffffff" stroke-width="13" stroke-linejoin="round"/>
+          <path d="M150 26 C110 47 55 43 27 35 C23 84 25 166 54 226 C85 286 136 319 150 328 C164 319 215 286 246 226 C275 166 277 84 273 35 C245 43 190 47 150 26 Z" 
+                fill="none" stroke="#ffffff" stroke-width="3.5" opacity="0.95"/>
+          <g transform="rotate(-10 150 180)">
+            <text x="150" y="112" font-family="'Times New Roman', serif" font-style="italic" font-weight="bold" font-size="42" fill="#ffffff" text-anchor="middle" letter-spacing="2">THE</text>
+            <text x="150" y="178" font-family="'Times New Roman', serif" font-style="italic" font-weight="900" font-size="42" fill="#ffffff" text-anchor="middle" letter-spacing="1">SALVATION</text>
+            <text x="150" y="244" font-family="'Times New Roman', serif" font-style="italic" font-weight="900" font-size="44" fill="#ffffff" text-anchor="middle" letter-spacing="2">ARMY</text>
+          </g>
+        </g>
+      </svg>
     </div>
 
-    <!-- 主標題：直播即將開始 -->
-    <div class="space-y-3">
-      <div class="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-red-950/70 border border-red-500/40 backdrop-blur-md mb-2 shadow-lg">
-        <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span>
-        <span class="text-red-200 text-xs sm:text-sm tracking-widest font-semibold uppercase">LIVE BROADCAST</span>
-      </div>
+    <!-- 典雅宋體中英文排版 (與圖片完全一致) -->
+    <h1 class="text-4xl sm:text-5xl md:text-6xl font-medium tracking-[0.22em] text-[#f4efe8] drop-shadow-lg" style="font-family: 'Noto Serif TC', serif;">
+      直播即將開始
+    </h1>
 
-      <h1 id="mainTitle" class="text-3xl sm:text-5xl md:text-6xl font-black tracking-wider shimmer-text">
-        直播即將開始
-      </h1>
+    <p class="text-base sm:text-xl md:text-2xl font-normal tracking-[0.08em] text-[#ded6c9] mt-3 drop-shadow-md">
+      Stream Starting Soon
+    </p>
 
-      <p id="subTitle" class="text-base sm:text-xl text-red-100/80 font-light tracking-widest pt-1">
-        STREAM STARTING SOON
-      </p>
-    </div>
-
-    <!-- 動態跳動點與即時時間 / 倒數器模組 -->
-    <div class="mt-8 flex flex-col items-center gap-4">
-      <div class="dot-flashing">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-
-      <!-- 時間顯示卡片 (可設定為目前時間或倒數) -->
-      <div id="timeContainer" class="flex items-center gap-3 text-red-200/90 text-sm sm:text-base font-mono tracking-wider bg-black/40 border border-red-500/30 px-6 py-2 rounded-xl backdrop-blur-md shadow-2xl">
-        <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-        </svg>
-        <span id="displayClock">00:00:00</span>
-      </div>
-    </div>
   </main>
 
-  <!-- 底部優雅品牌標語 -->
-  <footer class="absolute bottom-6 z-20 text-xs sm:text-sm text-neutral-400/80 tracking-widest font-light flex items-center gap-2">
-    <span>THE SALVATION ARMY</span>
-    <span>•</span>
-    <span>救世軍</span>
-  </footer>
-
-  <!-- 右下角控制面版 (預設隱藏，按鍵盤 H 鍵可隨時開啟/收合) -->
-  <div id="controlPanel" class="hidden fixed top-4 right-4 z-50 transition-all duration-300">
-    <div class="bg-neutral-900/90 border border-neutral-700/60 backdrop-blur-lg rounded-2xl p-4 text-xs text-white shadow-2xl flex flex-col gap-3 min-w-[210px]">
-      <div class="flex items-center justify-between font-bold text-neutral-300 border-b border-neutral-700 pb-2">
-        <span>直播畫面設定</span>
-        <button id="toggleFullscreen" class="px-2 py-0.5 bg-neutral-800 hover:bg-neutral-700 rounded text-neutral-300 text-[10px]">全螢幕</button>
-      </div>
-
-      <div class="space-y-1">
-        <label class="text-[11px] text-neutral-400">主標題：</label>
-        <input id="inputTitle" type="text" value="直播即將開始" class="w-full bg-neutral-800 border border-neutral-700 rounded px-2 py-1 text-white focus:outline-none focus:border-red-500">
-      </div>
-
-      <div class="space-y-1">
-        <label class="text-[11px] text-neutral-400">副標題：</label>
-        <input id="inputSub" type="text" value="STREAM STARTING SOON" class="w-full bg-neutral-800 border border-neutral-700 rounded px-2 py-1 text-white focus:outline-none focus:border-red-500">
-      </div>
-
-      <div class="space-y-1">
-        <label class="text-[11px] text-neutral-400">時鐘模式：</label>
-        <select id="modeSelect" class="w-full bg-neutral-800 border border-neutral-700 rounded px-2 py-1 text-white focus:outline-none">
-          <option value="clock">目前時間 (當地即時)</option>
-          <option value="countdown5">開播倒數 (5分鐘)</option>
-          <option value="countdown10">開播倒數 (10分鐘)</option>
-          <option value="hide">隱藏時間模組</option>
-        </select>
-      </div>
-
-      <p class="text-[10px] text-neutral-400 leading-tight">
-        * 放入 OBS 的「瀏覽器來源」解析度建議設為 1920x1080。
-      </p>
-    </div>
-  </div>
-
   <script>
-    // --- 粒子流動系統 (Canvas Particles) ---
-    const canvas = document.getElementById('particleCanvas');
+    // --- 絲綢波浪光影系統 (Sleek Flowing Ribbon Waves) ---
+    const canvas = document.getElementById('waveCanvas');
     const ctx = canvas.getContext('2d');
-    let particles = [];
     let width = 0;
     let height = 0;
+    let step = 0;
 
-    function resizeCanvas() {
+    function resize() {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
     }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
+    window.addEventListener('resize', resize);
+    resize();
 
-    class Particle {
-      constructor() {
-        this.reset();
+    function drawWave(yOffset, waveHeight, speed, strokeStyle, fillStyle, thickness) {
+      ctx.beginPath();
+      ctx.moveTo(0, height * 0.7);
+
+      for (let x = 0; x <= width; x += 15) {
+        // 多重正弦波疊加，創造極度自然優雅的絲綢弧線
+        const angle1 = (x * 0.0018) + (step * speed);
+        const angle2 = (x * 0.0035) - (step * speed * 0.6);
+        const y = (height * yOffset) + Math.sin(angle1) * waveHeight + Math.cos(angle2) * (waveHeight * 0.4);
+        ctx.lineTo(x, y);
       }
-      reset() {
-        this.x = Math.random() * width;
-        this.y = height + Math.random() * 50;
-        this.size = Math.random() * 2.5 + 0.8;
-        this.speedY = Math.random() * 0.7 + 0.25;
-        this.speedX = (Math.random() - 0.5) * 0.5;
-        this.alpha = Math.random() * 0.6 + 0.2;
-        this.maxAlpha = this.alpha;
-        this.hue = Math.random() > 0.35 ? Math.random() * 20 + 350 : 45; // 紅色與微金色
-      }
-      update() {
-        this.y -= this.speedY;
-        this.x += this.speedX + Math.sin(this.y * 0.01) * 0.3;
-        if (this.y < height * 0.2) {
-          this.alpha -= 0.003;
-        }
-        if (this.y < -10 || this.alpha <= 0) {
-          this.reset();
-        }
-      }
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${this.hue}, 90%, 65%, ${this.alpha})`;
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = `hsla(${this.hue}, 90%, 60%, ${this.alpha})`;
+
+      if (fillStyle) {
+        ctx.lineTo(width, height);
+        ctx.lineTo(0, height);
+        ctx.closePath();
+        ctx.fillStyle = fillStyle;
         ctx.fill();
+      } else {
+        ctx.strokeStyle = strokeStyle;
+        ctx.lineWidth = thickness;
+        ctx.stroke();
       }
     }
 
-    const particleCount = Math.min(80, Math.floor(window.innerWidth / 20));
-    for (let i = 0; i < particleCount; i++) {
-      const p = new Particle();
-      p.y = Math.random() * height; // 初始均勻分佈
-      particles.push(p);
-    }
-
-    function animateParticles() {
+    function render() {
       ctx.clearRect(0, 0, width, height);
-      for (let i = 0; i < particles.length; i++) {
-        particles[i].update();
-        particles[i].draw();
-      }
-      requestAnimationFrame(animateParticles);
+      step += 0.006;
+
+      // 柔和穿透的右側暗部微光
+      const waveGrad1 = ctx.createLinearGradient(0, height * 0.5, width, height * 0.5);
+      waveGrad1.addColorStop(0, 'rgba(230, 90, 50, 0.0)');
+      waveGrad1.addColorStop(0.35, 'rgba(255, 180, 110, 0.18)');
+      waveGrad1.addColorStop(0.65, 'rgba(240, 240, 255, 0.22)');
+      waveGrad1.addColorStop(1, 'rgba(180, 190, 210, 0.05)');
+
+      const waveGrad2 = ctx.createLinearGradient(0, height * 0.5, width, height * 0.5);
+      waveGrad2.addColorStop(0, 'rgba(180, 20, 20, 0.0)');
+      waveGrad2.addColorStop(0.4, 'rgba(255, 200, 140, 0.28)');
+      waveGrad2.addColorStop(0.8, 'rgba(255, 255, 255, 0.12)');
+      waveGrad2.addColorStop(1, 'rgba(200, 210, 230, 0.0)');
+
+      // 繪製多層絲綢流光光束
+      drawWave(0.55, 65, 0.9, waveGrad1, null, 2.5);
+      drawWave(0.52, 50, 1.2, waveGrad2, null, 1.8);
+      drawWave(0.48, 80, 0.7, 'rgba(255, 255, 255, 0.08)', null, 1.2);
+      drawWave(0.58, 40, 1.5, 'rgba(255, 215, 140, 0.12)', null, 2);
+
+      requestAnimationFrame(render);
     }
-    animateParticles();
-
-    // --- 即時時鐘與倒數計時邏輯 ---
-    const displayClock = document.getElementById('displayClock');
-    const timeContainer = document.getElementById('timeContainer');
-    const modeSelect = document.getElementById('modeSelect');
-    let countdownRemaining = 300;
-    let timerInterval = null;
-
-    function formatTime(val) {
-      return String(val).padStart(2, '0');
-    }
-
-    function updateTimer() {
-      const mode = modeSelect.value;
-      if (mode === 'hide') {
-        timeContainer.style.display = 'none';
-        return;
-      }
-      timeContainer.style.display = 'flex';
-
-      if (mode === 'clock') {
-        const now = new Date();
-        displayClock.textContent = `${formatTime(now.getHours())}:${formatTime(now.getMinutes())}:${formatTime(now.getSeconds())}`;
-      } else {
-        if (countdownRemaining > 0) {
-          countdownRemaining--;
-        }
-        const m = Math.floor(countdownRemaining / 60);
-        const s = countdownRemaining % 60;
-        displayClock.textContent = `開播倒數 ${formatTime(m)}:${formatTime(s)}`;
-      }
-    }
-
-    modeSelect.addEventListener('change', () => {
-      if (modeSelect.value === 'countdown5') countdownRemaining = 300;
-      if (modeSelect.value === 'countdown10') countdownRemaining = 600;
-      updateTimer();
-    });
-
-    setInterval(updateTimer, 1000);
-    updateTimer();
-
-    // --- 自訂文字及全螢幕綁定 ---
-    const inputTitle = document.getElementById('inputTitle');
-    const inputSub = document.getElementById('inputSub');
-    const mainTitle = document.getElementById('mainTitle');
-    const subTitle = document.getElementById('subTitle');
-
-    inputTitle.addEventListener('input', (e) => {
-      mainTitle.textContent = e.target.value || '直播即將開始';
-    });
-
-    inputSub.addEventListener('input', (e) => {
-      subTitle.textContent = e.target.value || 'STREAM STARTING SOON';
-    });
-
-    document.getElementById('toggleFullscreen').addEventListener('click', () => {
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(() => {});
-      } else {
-        document.exitFullscreen().catch(() => {});
-      }
-    });
-
-    // 鍵盤按下 H 鍵可切換控制面板（平時完全隱藏）
-    window.addEventListener('keydown', (e) => {
-      if (e.target.tagName !== 'INPUT' && (e.key === 'h' || e.key === 'H')) {
-        const panel = document.getElementById('controlPanel');
-        panel.classList.toggle('hidden');
-      }
-    });
+    render();
   </script>
 </body>
 </html>
